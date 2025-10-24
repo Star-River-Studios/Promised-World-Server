@@ -48,7 +48,7 @@
 2. 补全文件
   - 须知：由于直接提交Libraries目录会导致存储库臃肿，因此SponegNeo服务器（mod-alpha目录）将不保留NeoForge的Libraries目录。需自行补全
   - 补全方法
-    1. 前往[NeoForge官网](https://neoforged.net/)下载符合要求的NeoForge核心（具体要求可以看SpongeNeo核心的文件名，以仓库附带的NeoForge核心文件名（spongeneo-1.21.1-**21.1.211**-12.0.3-RC2401-universal.jar）为例，其中的`21.1.211`即为SpongeNeo的NeoForge的最低版本要求。）
+    1. 前往[NeoForge官网](https://neoforged.net/)下载符合要求的NeoForge核心（具体要求可以看SpongeNeo核心的文件名，以spongeneo-1.21.1-**21.1.211**-12.0.3-RC2401-universal.jar为例，其中的`21.1.211`即为SpongeNeo的NeoForge的最低版本要求。）
     2. 打开终端或连接到服务器
     3. 在保存NeoForge安装文件的目录中输入以下命令
     ```bash
