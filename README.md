@@ -1,7 +1,3 @@
-- 简体中文版
-- [繁體中文版](./README_TW.md)
-- [English version](./README_EN.md)
-
 # 应许之世 —— 服务端Git存储库
 
 ## 一、简介
