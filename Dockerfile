@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.authors="ManyStars"
 LABEL org.opencontainers.image.vendor="Star River Studios"
 LABEL org.opencontainers.image.source="https://github.com/Star-River-Studios/Promised-World-Server"
 LABEL org.opencontainers.image.licenses="GPL-3.0"
-LABEL org.opencontainers.image.version="1.0.0-beta.1+pw.20251108"
+LABEL org.opencontainers.image.version="1.0.0"
 
 # 安装系统组件
 ENV TERM="xterm-256color"
