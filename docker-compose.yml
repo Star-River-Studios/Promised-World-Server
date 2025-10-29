@@ -1,0 +1,111 @@
+services:
+  # 应许之世-Velocity代理服务器
+  pw-velocity:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0-beta.1+pw.20251108
+    container_name: Promised-World_Velocity
+    restart: always
+    stop_grace_period: 30s
+    init: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./Velocity:/app/Promised-World/Velocity:rw
+    working_dir: /app/Promised-World/Velocity
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    ports:
+      - 12000:12000/tcp
+    healthcheck:
+      test: ["CMD-SHELL", "netstat -tlnp | grep :12000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 应许之世-大厅服务器
+  pw-lobby:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0-beta.1+pw.20251108
+    container_name: Promised-World_Lobby-Server
+    restart: always
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/lobby
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      pw-velocity:
+        condition: service_healthy
+
+  # 应许之世-模组生存服务器
+  pw-mod:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0-beta.1+pw.20251108
+    container_name: Promised-World_Mod-Server
+    restart: always
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/mod
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      pw-velocity:
+        condition: service_healthy
+
+  # 应许之世-模组生存服务器（Alpha测试服）
+  pw-mod-alpha:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0-beta.1+pw.20251108
+    container_name: Promised-World_Mod-Alpha-Server
+    restart: always
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/mod-alpha
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      pw-velocity:
+        condition: service_healthy
+
+  # 应许之世-插件生存服务器
+  pw-survival:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0-beta.1+pw.20251108
+    container_name: Promised-World_Survival-Server
+    restart: always
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/survival
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      pw-velocity:
+        condition: service_healthy
+
+networks:
+  # 应许之世-内部桥接网络
+  pw-network:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+        - subnet: fd00:dead:beef:1::/64
+          gateway: fd00:dead:beef:1::1

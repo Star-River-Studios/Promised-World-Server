@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# 定义各项参数
+jvmArgs=(
+    "-Xms4096M"
+    "-Xmx4096M"
+    "-Dfile.encoding=UTF-8"
+    "-Dterminal.ansi=true"
+    "--add-modules=jdk.incubator.vector"
+)
+authlibArgs=()
+agentArgs=()
+argsFile=(
+    "@libraries/net/neoforged/neoforge/21.1.212/unix_args.txt"
+)
+programArgs=(
+    "nogui"
+)
+
+# 执行 Java 命令
+sleep 1
+echo "正在启动 Minecraft 服务器..."
+sleep 1
+echo "已设定JVM参数：${jvmArgs[*]:-无}"
+sleep 1
+echo "已设定外置登录参数：${authlibArgs[*]:-无}"
+sleep 1
+echo "已设定代理参数：${agentArgs[*]:-无}"
+sleep 1
+echo "已设定参数文件：${argsFile[*]}"
+sleep 1
+echo "已设定程序参数：${programArgs[*]:-无}"
+sleep 1
+echo "参数设置完成，正在启动..."
+exec java "${jvmArgs[@]}" "${authlibArgs[@]}" "${agentArgs[@]}" "${argsFile[@]}" "${programArgs[@]}"
