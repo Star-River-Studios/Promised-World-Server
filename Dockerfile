@@ -17,7 +17,7 @@ RUN sed -i 's|http://deb.debian.org|http://mirrors.ustc.edu.cn|g' /etc/apt/sourc
     && sed -i 's|http://security.debian.org|http://mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list.d/debian.sources \
     && apt-get update \
     && apt-get upgrade -y --no-install-recommends \
-    && apt-get install -y --no-install-recommends gnupg ca-certificates curl locales apt-utils\
+    && apt-get install -y --no-install-recommends gnupg ca-certificates curl locales apt-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # 设置语言和时区
