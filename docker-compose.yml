@@ -16,11 +16,6 @@ services:
       - pw-network
     ports:
       - 12000:12000/tcp
-    healthcheck:
-      test: ["CMD-SHELL", "netstat -tlnp | grep :12000 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   # 应许之世-大厅服务器
   pw-lobby:
@@ -38,8 +33,7 @@ services:
     networks:
       - pw-network
     depends_on:
-      pw-velocity:
-        condition: service_healthy
+      - pw-velocity
 
   # 应许之世-模组生存服务器
   pw-mod:
@@ -57,8 +51,7 @@ services:
     networks:
       - pw-network
     depends_on:
-      pw-velocity:
-        condition: service_healthy
+      - pw-velocity
 
   # 应许之世-模组生存服务器（Alpha测试服）
   pw-mod-alpha:
@@ -76,8 +69,7 @@ services:
     networks:
       - pw-network
     depends_on:
-      pw-velocity:
-        condition: service_healthy
+      - pw-velocity
 
   # 应许之世-插件生存服务器
   pw-survival:
@@ -95,8 +87,7 @@ services:
     networks:
       - pw-network
     depends_on:
-      pw-velocity:
-        condition: service_healthy
+      - pw-velocity
 
 networks:
   # 应许之世-内部桥接网络
