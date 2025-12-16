@@ -1,0 +1,154 @@
+services:
+  # ME Frp-中国大陆线路
+  pw-mefrp-cn:
+    image: mefrp/core-next:latest
+    container_name: Promised-World_ME-Frp-CN
+    restart: on-failure:3
+    stop_grace_period: 15s
+    init: true
+    tty: true
+    mem_limit: 512m
+    cpus: 1.0
+    volumes:
+      - ./ME-Frp:/app/mefrp:cached
+    command: ["-c", "/app/mefrp/mefrpc-cn.toml"]
+    network_mode: host
+
+  # ME Frp-中国香港线路
+  pw-mefrp-hk:
+    image: mefrp/core-next:latest
+    container_name: Promised-World_ME-Frp-HK
+    restart: on-failure:3
+    stop_grace_period: 15s
+    init: true
+    tty: true
+    mem_limit: 512m
+    cpus: 1.0
+    volumes:
+      - ./ME-Frp:/app/mefrp:cached
+    command: ["-c", "/app/mefrp/mefrpc-hk.toml"]
+    network_mode: host
+
+  # ME Frp-新加坡线路
+  pw-mefrp-sg:
+    image: mefrp/core-next:latest
+    container_name: Promised-World_ME-Frp-SG
+    restart: on-failure:3
+    stop_grace_period: 15s
+    init: true
+    tty: true
+    mem_limit: 512m
+    cpus: 1.0
+    volumes:
+      - ./ME-Frp:/app/mefrp:cached
+    command: ["-c", "/app/mefrp/mefrpc-sg.toml"]
+    network_mode: host
+
+  # ME Frp-美国线路
+  pw-mefrp-us:
+    image: mefrp/core-next:latest
+    container_name: Promised-World_ME-Frp-US
+    restart: on-failure:3
+    stop_grace_period: 15s
+    init: true
+    tty: true
+    mem_limit: 512m
+    cpus: 1.0
+    volumes:
+      - ./ME-Frp:/app/mefrp:cached
+    command: ["-c", "/app/mefrp/mefrpc-us.toml"]
+    network_mode: host
+
+  # 应许之世-Velocity代理服务器
+  pw-velocity:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    container_name: Promised-World_Velocity
+    restart: on-failure:3
+    stop_grace_period: 30s
+    init: true
+    tty: true
+    stdin_open: true
+    mem_limit: 2g
+    cpus: 2.0
+    volumes:
+      - ./Velocity:/app/Promised-World/Velocity:rw
+    working_dir: /app/Promised-World/Velocity
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    ports:
+      - 12000:12000/tcp
+      - 12000:12000/udp
+      - 13000:13000/udp
+
+  # 应许之世-大厅服务器
+  pw-lobby:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    container_name: Promised-World_Lobby-Server
+    restart: on-failure:3
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    mem_limit: 2g
+    cpus: 2.0
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/lobby
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      - pw-velocity
+
+  # 应许之世-模组生存服务器
+  pw-mod:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    container_name: Promised-World_Mod-Server
+    restart: on-failure:3
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    mem_limit: 8g
+    cpus: 2.0
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/mod
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      - pw-velocity
+
+  # 应许之世-插件生存服务器
+  pw-survival:
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    container_name: Promised-World_Survival-Server
+    restart: on-failure:3
+    stop_grace_period: 60s
+    init: true
+    tty: true
+    stdin_open: true
+    mem_limit: 8g
+    cpus: 2.0
+    volumes:
+      - ./Sub-Server:/app/Promised-World/Sub-Server:rw
+    working_dir: /app/Promised-World/Sub-Server/survival
+    command: ["bash", "-c", "chmod +x ./Start.sh && exec ./Start.sh"]
+    networks:
+      - pw-network
+    depends_on:
+      - pw-velocity
+
+networks:
+  # 应许之世-内部桥接网络
+  pw-network:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+        - subnet: fd00:dead:beef:1::/64
+          gateway: fd00:dead:beef:1::1

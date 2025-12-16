@@ -1,0 +1,33 @@
+serverAddr = '47.108.232.192'
+serverPort = 2333
+user = '6119ba268a433e02a1344bb8348ec118'
+
+[auth]
+method = 'token'
+token = 'MEFrpServerToken'
+
+[[proxies]]
+name = 'PW_MCJE_CN'
+type = 'tcp'
+
+localIP = '0.0.0.0'
+localPort = 12000
+remotePort = 50314
+
+[proxies.transport]
+proxyProtocolVersion = 'v2'
+useEncryption = true
+useCompression = true
+
+[[proxies]]
+name = 'PW_MCBE_CN'
+type = 'udp'
+
+localIP = '0.0.0.0'
+localPort = 13000
+remotePort = 55185
+
+[proxies.transport]
+proxyProtocolVersion = 'v2'
+useEncryption = true
+useCompression = true
