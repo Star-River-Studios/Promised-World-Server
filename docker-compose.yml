@@ -61,7 +61,7 @@ services:
 
   # 应许之世-Velocity代理服务器
   pw-velocity:
-    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:latest
     container_name: Promised-World_Velocity
     restart: on-failure:3
     stop_grace_period: 30s
@@ -83,7 +83,7 @@ services:
 
   # 应许之世-大厅服务器
   pw-lobby:
-    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:latest
     container_name: Promised-World_Lobby-Server
     restart: on-failure:3
     stop_grace_period: 60s
@@ -103,7 +103,7 @@ services:
 
   # 应许之世-模组生存服务器
   pw-mod:
-    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:latest
     container_name: Promised-World_Mod-Server
     restart: on-failure:3
     stop_grace_period: 60s
@@ -123,7 +123,7 @@ services:
 
   # 应许之世-插件生存服务器
   pw-survival:
-    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:1.0.0
+    image: ccr.ccs.tencentyun.com/manystars-docker/promised-world-server:latest
     container_name: Promised-World_Survival-Server
     restart: on-failure:3
     stop_grace_period: 60s
