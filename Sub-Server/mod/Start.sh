@@ -2,7 +2,7 @@
 
 # 定义基本参数
 memory="8192M"
-argsFile="@libraries/net/neoforged/neoforge/21.1.216/unix_args.txt"
+argsFile="@libraries/net/neoforged/neoforge/21.1.217/unix_args.txt"
 
 # 定义高级参数
 jvmArgs=(

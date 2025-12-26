@@ -7,8 +7,6 @@ services:
     stop_grace_period: 15s
     init: true
     tty: true
-    mem_limit: 512m
-    cpus: 1.0
     volumes:
       - ./ME-Frp:/app/mefrp:cached
     command: ["-c", "/app/mefrp/mefrpc-cn.toml"]
@@ -22,8 +20,6 @@ services:
     stop_grace_period: 15s
     init: true
     tty: true
-    mem_limit: 512m
-    cpus: 1.0
     volumes:
       - ./ME-Frp:/app/mefrp:cached
     command: ["-c", "/app/mefrp/mefrpc-hk.toml"]
@@ -37,26 +33,9 @@ services:
     stop_grace_period: 15s
     init: true
     tty: true
-    mem_limit: 512m
-    cpus: 1.0
     volumes:
       - ./ME-Frp:/app/mefrp:cached
     command: ["-c", "/app/mefrp/mefrpc-sg.toml"]
-    network_mode: host
-
-  # ME Frp-美国线路
-  pw-mefrp-us:
-    image: mefrp/core-next:latest
-    container_name: Promised-World_ME-Frp-US
-    restart: on-failure:3
-    stop_grace_period: 15s
-    init: true
-    tty: true
-    mem_limit: 512m
-    cpus: 1.0
-    volumes:
-      - ./ME-Frp:/app/mefrp:cached
-    command: ["-c", "/app/mefrp/mefrpc-us.toml"]
     network_mode: host
 
   # 应许之世-Velocity代理服务器
@@ -68,8 +47,6 @@ services:
     init: true
     tty: true
     stdin_open: true
-    mem_limit: 2g
-    cpus: 2.0
     volumes:
       - ./Velocity:/app/Promised-World/Velocity:rw
     working_dir: /app/Promised-World/Velocity
@@ -90,8 +67,6 @@ services:
     init: true
     tty: true
     stdin_open: true
-    mem_limit: 2g
-    cpus: 2.0
     volumes:
       - ./Sub-Server:/app/Promised-World/Sub-Server:rw
     working_dir: /app/Promised-World/Sub-Server/lobby
@@ -110,8 +85,6 @@ services:
     init: true
     tty: true
     stdin_open: true
-    mem_limit: 8g
-    cpus: 2.0
     volumes:
       - ./Sub-Server:/app/Promised-World/Sub-Server:rw
     working_dir: /app/Promised-World/Sub-Server/mod
@@ -130,8 +103,6 @@ services:
     init: true
     tty: true
     stdin_open: true
-    mem_limit: 8g
-    cpus: 2.0
     volumes:
       - ./Sub-Server:/app/Promised-World/Sub-Server:rw
     working_dir: /app/Promised-World/Sub-Server/survival
