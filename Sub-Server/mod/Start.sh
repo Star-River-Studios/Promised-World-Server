@@ -1,20 +1,18 @@
 #!/bin/bash
 
 # 定义基本参数
-memory="8192M"
-argsFile="@libraries/net/neoforged/neoforge/21.1.217/unix_args.txt"
+memory="10240M"
+argsFile="@libraries/net/neoforged/neoforge/21.1.218/unix_args.txt"
 
 # 定义高级参数
 jvmArgs=(
     # === 垃圾收集器 ===
-    "-XX:+UseG1GC" # 使用 G1 垃圾收集器（通用、跨平台、稳定）
-    "-XX:MaxGCPauseMillis=300" # GC 停顿目标 300ms，平衡吞吐和延迟
-    "-XX:InitiatingHeapOccupancyPercent=25" # Old Gen 使用 25% 时启动并发 GC，防止 Old Gen 堆爆满触发 Full GC
-    "-XX:ParallelGCThreads=2" # 并行 GC 线程数
-    "-XX:ConcGCThreads=1" # 并发 GC 线程数
+    "-XX:+UseZGC" # 使用 Z 垃圾收集器（适用于大内存）
+    "-XX:+ZGenerational" # 启用 Z 垃圾收集器中的代际垃圾收集
 
     # === 内存访问稳定性 ===
-    "-XX:+AlwaysPreTouch" # 启动时预分配并访问内存页，减少运行时 page fault
+    "-XX:+AlwaysPreTouch" # 预分配内存，提高启动速度
+    "-XX:+UseContainerSupport" # 启用容器内存感知
 
     # === 安全与防护 ===
     "-XX:+DisableExplicitGC" # 禁止显式调用 System.gc()，避免插件或服务器触发 Full GC（调试/诊断时如有问题可暂时移除）
@@ -22,10 +20,10 @@ jvmArgs=(
     # === 控制台 / 日志 ===
     "-Dterminal.ansi=true" # 启用控制台 ANSI 颜色支持，便于日志可读性
     "-Dlog4j2.formatMsgNoLookups=true" # Log4j2 安全参数，防止远程代码执行漏洞
+    "-Xlog:gc*,gc+age=info,gc+heap=info" # 启用 GC 日志，可查看 GC 运行情况
 
     # === SpongeNeo / NeoForge 特定优化 ===
     "-Dmixin.debug.export=false" # 禁止 Mixin 导出调试信息，减少启动日志杂乱
-    "--add-modules=jdk.incubator.vector" # 启用向量 API，可提升部分数值计算性能
 )
 authlibArgs=()
 agentArgs=()

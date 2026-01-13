@@ -8,13 +8,9 @@ jarFile="paper-server.jar"
 jvmArgs=(
     # === 垃圾收集器 ===
     "-XX:+UseG1GC" # 使用 G1 垃圾收集器（通用、跨平台、稳定）
-    "-XX:MaxGCPauseMillis=200" # GC 停顿目标 200ms，平衡吞吐和延迟
-    "-XX:InitiatingHeapOccupancyPercent=30" # Old Gen 使用 30% 时启动并发 GC，防止 Old Gen 堆爆满触发 Full GC
-    "-XX:ParallelGCThreads=1" # 并行 GC 线程数
-    "-XX:ConcGCThreads=1" # 并发 GC 线程数
 
     # === 内存访问稳定性 ===
-    "-XX:+AlwaysPreTouch" # 启动时预分配并访问内存页，减少运行时 page fault
+    "-XX:+UseContainerSupport" # 启用容器内存感知
 
     # === 安全与防护 ===
     "-XX:+DisableExplicitGC" # 禁止显式调用 System.gc()，避免插件或服务器触发 Full GC（调试/诊断时如有问题可暂时移除）
@@ -25,7 +21,7 @@ jvmArgs=(
 
     # === Paper 特定优化 ===
     "-Dpaper.noTickViewDistance=true" # 视距外区块不 Tick，优化性能
-    "--add-modules=jdk.incubator.vector" # 启用向量 API，可提升部分数值计算性能
+    "-Dpaper.disableChannelLimit" # 禁用频道数量限制，解决 Modpack 进入服务器时的频道数量限制
 )
 authlibArgs=()
 agentArgs=()
